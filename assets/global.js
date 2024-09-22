@@ -1119,10 +1119,27 @@ class VariantSelects extends HTMLElement {
     )
       .then((response) => response.text())
       .then((responseText) => {
+        
+      
+
+
         // prevent unnecessary ui changes from abandoned selections
         if (this.currentVariant.id !== requestedVariantId) return;
 
         const html = new DOMParser().parseFromString(responseText, 'text/html');
+
+          //Source 
+          const sourceCoupon = document.querySelector('.coupon');
+          const destinationCoupon = html.querySelector('.coupon');
+
+          if(sourceCoupon && destinationCoupon){
+            sourceCoupon.innerHTML = destinationCoupon.innerHTML;
+          }
+
+
+
+
+
         const destination = document.getElementById(`price-${this.dataset.section}`);
         const source = html.getElementById(
           `price-${this.dataset.originalSection ? this.dataset.originalSection : this.dataset.section}`
@@ -1278,3 +1295,28 @@ class ProductRecommendations extends HTMLElement {
 }
 
 customElements.define('product-recommendations', ProductRecommendations);
+
+
+
+
+document.querySelector('#copy-btn').addEventListener('click', function() {
+  // Select the h2 element each time the button is clicked to get the latest value
+  var discountText = document.querySelector('#discount-value').innerText;
+  
+  // Create a temporary input element
+  var tempInput = document.createElement('input');
+  tempInput.value = discountText;
+  
+  // Append the input to the body
+  document.body.appendChild(tempInput);
+  
+  // Select and copy the text
+  tempInput.select();
+  document.execCommand('copy');
+  
+  // Remove the input element
+  document.body.removeChild(tempInput);
+  
+  // Optional alert to confirm copy action
+  alert('Discount code copied: ' + discountText);
+});
