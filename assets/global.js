@@ -1132,12 +1132,23 @@ class VariantSelects extends HTMLElement {
           const sourceCoupon = document.querySelector('.coupon');
           const destinationCoupon = html.querySelector('.coupon');
 
-          if(sourceCoupon && destinationCoupon){
-            sourceCoupon.innerHTML = destinationCoupon.innerHTML;
-          }
 
+        let destination = document.querySelector(".coupon");
+            let source = html.querySelector(".coupon");
+            if (html.querySelector('.center div>h2').innerText == '') {
+              document.querySelector(".coupon").style.display = "none";
+              navigator.clipboard.writeText('')
+            } else {
+              if (destination && source) {
+                destination.innerHTML = source.innerHTML;
+              }
+              document.querySelector(".coupon").style.display = "block";
+              navigator.clipboard.writeText(
+                document.querySelector("#discount-value").innerText
+              );
+            }
 
-
+        
 
 
 
