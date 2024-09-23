@@ -986,7 +986,7 @@ class VariantSelects extends HTMLElement {
         return element.value;
       }
       if (element.tagName === 'FIELDSET') {
-        return Array.from(element.querySelectorAll('input')).find((radio) => radio.checked)?.value;
+        return Array.from(element.querySelectorAll('input')).fproind((radio) => radio.checked)?.value;
       }
     });
   }
@@ -1119,11 +1119,7 @@ class VariantSelects extends HTMLElement {
     )
       .then((response) => response.text())
       .then((responseText) => {
-        
-      
 
-
-        // prevent unnecessary ui changes from abandoned selections
         if (this.currentVariant.id !== requestedVariantId) return;
 
         const html = new DOMParser().parseFromString(responseText, 'text/html');
@@ -1300,23 +1296,14 @@ customElements.define('product-recommendations', ProductRecommendations);
 
 
 document.querySelector('#copy-btn').addEventListener('click', function() {
-  // Select the h2 element each time the button is clicked to get the latest value
   var discountText = document.querySelector('#discount-value').innerText;
-  
-  // Create a temporary input element
-  var tempInput = document.createElement('input');
-  tempInput.value = discountText;
-  
-  // Append the input to the body
-  document.body.appendChild(tempInput);
-  
-  // Select and copy the text
-  tempInput.select();
-  document.execCommand('copy');
-  
-  // Remove the input element
-  document.body.removeChild(tempInput);
-  
-  // Optional alert to confirm copy action
-  alert('Discount code copied: ' + discountText);
+
+  // Use navigator.clipboard to copy the text
+  navigator.clipboard.writeText(discountText)
+    .then(function() {
+      alert('Discount code copied: ' + discountText);
+    })
+    .catch(function(err) {
+      console.error('Failed to copy: ', err);
+    });
 });
