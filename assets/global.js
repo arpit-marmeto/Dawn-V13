@@ -1133,21 +1133,20 @@ class VariantSelects extends HTMLElement {
           const destinationCoupon = html.querySelector('.coupon');
 
 
-        let destination = document.querySelector(".coupon");
-            let source = html.querySelector(".coupon");
-            if (html.querySelector('.center div>h2').innerText == '') {
-              document.querySelector(".coupon").style.display = "none";
-              navigator.clipboard.writeText('')
-            } else {
-              if (destination && source) {
-                destination.innerHTML = source.innerHTML;
-              }
-              document.querySelector(".coupon").style.display = "block";
-              navigator.clipboard.writeText(
-                document.querySelector("#discount-value").innerText
-              );
-            }
-
+     let destination1 = document.querySelector(".coupon");
+        let source1 = html.querySelector(".coupon");
+        if (destination1 && source1) {
+          destination1.innerHTML = source1.innerHTML;
+        }
+        if (document.querySelector('.center div>h2').innerText == "% OFF") {
+          document.querySelector(".coupon").style.display = "none";
+          navigator.clipboard.writeText('')
+        } else {
+          document.querySelector(".coupon").style.display = "block";
+          navigator.clipboard.writeText(
+            document.querySelector("#coupon-code").innerText
+          );
+        }
         
 
 
