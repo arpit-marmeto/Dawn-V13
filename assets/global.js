@@ -1102,7 +1102,7 @@ class VariantSelects extends HTMLElement {
   }
 
   removeErrorMessage() {
-    const section = this.closest('section
+    const section = this.closest('section');
     if (!section) return;
 
     const productForm = section.querySelector('product-form');
@@ -1119,7 +1119,10 @@ class VariantSelects extends HTMLElement {
     )
       .then((response) => response.text())
       .then((responseText) => {
-  
+        
+      
+
+
         // prevent unnecessary ui changes from abandoned selections
         if (this.currentVariant.id !== requestedVariantId) return;
 
@@ -1132,6 +1135,9 @@ class VariantSelects extends HTMLElement {
           if(sourceCoupon && destinationCoupon){
             sourceCoupon.innerHTML = destinationCoupon.innerHTML;
           }
+
+
+
 
 
         const destination = document.getElementById(`price-${this.dataset.section}`);
@@ -1289,5 +1295,6 @@ class ProductRecommendations extends HTMLElement {
 }
 
 customElements.define('product-recommendations', ProductRecommendations);
+
 
 
