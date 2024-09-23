@@ -1132,10 +1132,6 @@ class VariantSelects extends HTMLElement {
             sourceCoupon.innerHTML = destinationCoupon.innerHTML;
           }
 
-
-
-
-
         const destination = document.getElementById(`price-${this.dataset.section}`);
         const source = html.getElementById(
           `price-${this.dataset.originalSection ? this.dataset.originalSection : this.dataset.section}`
@@ -1292,18 +1288,3 @@ class ProductRecommendations extends HTMLElement {
 
 customElements.define('product-recommendations', ProductRecommendations);
 
-
-
-
-document.querySelector('#copy-btn').addEventListener('click', function() {
-  var discountText = document.querySelector('#discount-value').innerText;
-
-  // Use navigator.clipboard to copy the text
-  navigator.clipboard.writeText(discountText)
-    .then(function() {
-      alert('Discount code copied: ' + discountText);
-    })
-    .catch(function(err) {
-      console.error('Failed to copy: ', err);
-    });
-});
