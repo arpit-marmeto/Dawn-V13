@@ -1136,6 +1136,16 @@ class VariantSelects extends HTMLElement {
             sourceCoupon.innerHTML = destinationCoupon.innerHTML;
           }
 
+                // Copy updated coupon content to clipboard
+        navigator.clipboard.writeText(destinationCoupon.innerText)
+          .then(() => {
+            console.log('Coupon code copied to clipboard: ' + destinationCoupon.innerText);
+          })
+          .catch((err) => {
+            console.error('Failed to copy coupon code: ', err);
+          });
+      }
+
 
 
 
