@@ -588,21 +588,6 @@
                     </div>
 
 
-              <script>
-                  const couponPercent = document.querySelector('.center div>h2').innerText;
-                  const coupon = document.querySelector('.coupon');
-                  const copyButton = document.getElementById('copy');
-                  if (couponPercent === '% OFF') {
-                    coupon.style.display = 'none';
-                    navigator.clipboard.writeText('');
-                  } else {
-                    coupon.style.display = 'block';
-                    copyButton.addEventListener('click', () => {
-                      navigator.clipboard.writeText(document.querySelector('#discount-value').innerText);
-                    });
-                  }
-                </script>
-
               {%- when 'buy_buttons' -%}
                 {%- render 'buy-buttons',
                   block: block,
