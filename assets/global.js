@@ -986,7 +986,7 @@ class VariantSelects extends HTMLElement {
         return element.value;
       }
       if (element.tagName === 'FIELDSET') {
-        return Array.from(element.querySelectorAll('input')).fproind((radio) => radio.checked)?.value;
+        return Array.from(element.querySelectorAll('input')).find((radio) => radio.checked)?.value;
       }
     });
   }
@@ -1119,18 +1119,26 @@ class VariantSelects extends HTMLElement {
     )
       .then((response) => response.text())
       .then((responseText) => {
+        
+      
 
+
+        // prevent unnecessary ui changes from abandoned selections
         if (this.currentVariant.id !== requestedVariantId) return;
 
         const html = new DOMParser().parseFromString(responseText, 'text/html');
 
           //Source 
-          const sourceCoupon = document.querySelector('.coupon .right');
-          const destinationCoupon = html.querySelector('.coupon .right');
+          const sourceCoupon = document.querySelector('.coupon');
+          const destinationCoupon = html.querySelector('.coupon');
 
           if(sourceCoupon && destinationCoupon){
             sourceCoupon.innerHTML = destinationCoupon.innerHTML;
           }
+
+
+
+
 
         const destination = document.getElementById(`price-${this.dataset.section}`);
         const source = html.getElementById(
@@ -1287,4 +1295,5 @@ class ProductRecommendations extends HTMLElement {
 }
 
 customElements.define('product-recommendations', ProductRecommendations);
+
 
