@@ -1109,105 +1109,97 @@ class VariantSelects extends HTMLElement {
     if (productForm) productForm.handleErrorMessage();
   }
 
-renderProductInfo() {
-  const requestedVariantId = this.currentVariant.id;
-  const sectionId = this.dataset.originalSection ? this.dataset.originalSection : this.dataset.section;
+  renderProductInfo() {
+    const requestedVariantId = this.currentVariant.id;
+    const sectionId = this.dataset.originalSection ? this.dataset.originalSection : this.dataset.section;
 
-  fetch(
-    `${this.dataset.url}?variant=${requestedVariantId}&section_id=${this.dataset.originalSection ? this.dataset.originalSection : this.dataset.section
-    }`
-  )
-    .then((response) => response.text())
-    .then((responseText) => {
-      // prevent unnecessary ui changes from abandoned selections
-      if (this.currentVariant.id !== requestedVariantId) return;
+    fetch(
+      `${this.dataset.url}?variant=${requestedVariantId}&section_id=${this.dataset.originalSection ? this.dataset.originalSection : this.dataset.section
+      }`
+    )
+      .then((response) => response.text())
+      .then((responseText) => {
+  
+        // prevent unnecessary ui changes from abandoned selections
+        if (this.currentVariant.id !== requestedVariantId) return;
 
-      const html = new DOMParser().parseFromString(responseText, 'text/html');
+        const html = new DOMParser().parseFromString(responseText, 'text/html');
 
-      // Coupon update and copy functionality
-      const sourceCoupon = document.querySelector('.coupon');
-      const destinationCoupon = html.querySelector('.coupon');
+          //Source 
+          const sourceCoupon = document.querySelector('.coupon');
+          const destinationCoupon = html.querySelector('.coupon');
 
-      if (sourceCoupon && destinationCoupon) {
-        sourceCoupon.innerHTML = destinationCoupon.innerHTML;
+          if(sourceCoupon && destinationCoupon){
+            sourceCoupon.innerHTML = destinationCoupon.innerHTML;
+          }
 
-        // Copy updated coupon content to clipboard
-        navigator.clipboard.writeText(destinationCoupon.innerText)
-          .then(() => {
-            console.log('Coupon code copied to clipboard: ' + destinationCoupon.innerText);
-          })
-          .catch((err) => {
-            console.error('Failed to copy coupon code: ', err);
-          });
-      }
 
-      const destination = document.getElementById(`price-${this.dataset.section}`);
-      const source = html.getElementById(
-        `price-${this.dataset.originalSection ? this.dataset.originalSection : this.dataset.section}`
-      );
-      const skuSource = html.getElementById(
-        `Sku-${this.dataset.originalSection ? this.dataset.originalSection : this.dataset.section}`
-      );
-      const skuDestination = document.getElementById(`Sku-${this.dataset.section}`);
-      const inventorySource = html.getElementById(
-        `Inventory-${this.dataset.originalSection ? this.dataset.originalSection : this.dataset.section}`
-      );
-      const inventoryDestination = document.getElementById(`Inventory-${this.dataset.section}`);
+        const destination = document.getElementById(`price-${this.dataset.section}`);
+        const source = html.getElementById(
+          `price-${this.dataset.originalSection ? this.dataset.originalSection : this.dataset.section}`
+        );
+        const skuSource = html.getElementById(
+          `Sku-${this.dataset.originalSection ? this.dataset.originalSection : this.dataset.section}`
+        );
+        const skuDestination = document.getElementById(`Sku-${this.dataset.section}`);
+        const inventorySource = html.getElementById(
+          `Inventory-${this.dataset.originalSection ? this.dataset.originalSection : this.dataset.section}`
+        );
+        const inventoryDestination = document.getElementById(`Inventory-${this.dataset.section}`);
 
-      const volumePricingSource = html.getElementById(
-        `Volume-${this.dataset.originalSection ? this.dataset.originalSection : this.dataset.section}`
-      );
+        const volumePricingSource = html.getElementById(
+          `Volume-${this.dataset.originalSection ? this.dataset.originalSection : this.dataset.section}`
+        );
 
-      const pricePerItemDestination = document.getElementById(`Price-Per-Item-${this.dataset.section}`);
-      const pricePerItemSource = html.getElementById(`Price-Per-Item-${this.dataset.originalSection ? this.dataset.originalSection : this.dataset.section}`);
+        const pricePerItemDestination = document.getElementById(`Price-Per-Item-${this.dataset.section}`);
+        const pricePerItemSource = html.getElementById(`Price-Per-Item-${this.dataset.originalSection ? this.dataset.originalSection : this.dataset.section}`);
 
-      const volumePricingDestination = document.getElementById(`Volume-${this.dataset.section}`);
-      const qtyRules = document.getElementById(`Quantity-Rules-${this.dataset.section}`);
-      const volumeNote = document.getElementById(`Volume-Note-${this.dataset.section}`);
+        const volumePricingDestination = document.getElementById(`Volume-${this.dataset.section}`);
+        const qtyRules = document.getElementById(`Quantity-Rules-${this.dataset.section}`);
+        const volumeNote = document.getElementById(`Volume-Note-${this.dataset.section}`);
 
-      if (volumeNote) volumeNote.classList.remove('hidden');
-      if (volumePricingDestination) volumePricingDestination.classList.remove('hidden');
-      if (qtyRules) qtyRules.classList.remove('hidden');
+        if (volumeNote) volumeNote.classList.remove('hidden');
+        if (volumePricingDestination) volumePricingDestination.classList.remove('hidden');
+        if (qtyRules) qtyRules.classList.remove('hidden');
 
-      if (source && destination) destination.innerHTML = source.innerHTML;
-      if (inventorySource && inventoryDestination) inventoryDestination.innerHTML = inventorySource.innerHTML;
-      if (skuSource && skuDestination) {
-        skuDestination.innerHTML = skuSource.innerHTML;
-        skuDestination.classList.toggle('hidden', skuSource.classList.contains('hidden'));
-      }
+        if (source && destination) destination.innerHTML = source.innerHTML;
+        if (inventorySource && inventoryDestination) inventoryDestination.innerHTML = inventorySource.innerHTML;
+        if (skuSource && skuDestination) {
+          skuDestination.innerHTML = skuSource.innerHTML;
+          skuDestination.classList.toggle('hidden', skuSource.classList.contains('hidden'));
+        }
 
-      if (volumePricingSource && volumePricingDestination) {
-        volumePricingDestination.innerHTML = volumePricingSource.innerHTML;
-      }
+        if (volumePricingSource && volumePricingDestination) {
+          volumePricingDestination.innerHTML = volumePricingSource.innerHTML;
+        }
 
-      if (pricePerItemSource && pricePerItemDestination) {
-        pricePerItemDestination.innerHTML = pricePerItemSource.innerHTML;
-        pricePerItemDestination.classList.toggle('hidden', pricePerItemSource.classList.contains('hidden'));
-      }
+        if (pricePerItemSource && pricePerItemDestination) {
+          pricePerItemDestination.innerHTML = pricePerItemSource.innerHTML;
+          pricePerItemDestination.classList.toggle('hidden', pricePerItemSource.classList.contains('hidden'));
+        }
 
-      const price = document.getElementById(`price-${this.dataset.section}`);
+        const price = document.getElementById(`price-${this.dataset.section}`);
 
-      if (price) price.classList.remove('hidden');
+        if (price) price.classList.remove('hidden');
 
-      if (inventoryDestination)
-        inventoryDestination.classList.toggle('hidden', inventorySource.innerText === '');
+        if (inventoryDestination)
+          inventoryDestination.classList.toggle('hidden', inventorySource.innerText === '');
 
-      const addButtonUpdated = html.getElementById(`ProductSubmitButton-${sectionId}`);
-      this.toggleAddButton(
-        addButtonUpdated ? addButtonUpdated.hasAttribute('disabled') : true,
-        window.variantStrings.soldOut
-      );
+        const addButtonUpdated = html.getElementById(`ProductSubmitButton-${sectionId}`);
+        this.toggleAddButton(
+          addButtonUpdated ? addButtonUpdated.hasAttribute('disabled') : true,
+          window.variantStrings.soldOut
+        );
 
-      publish(PUB_SUB_EVENTS.variantChange, {
-        data: {
-          sectionId,
-          html,
-          variant: this.currentVariant,
-        },
+        publish(PUB_SUB_EVENTS.variantChange, {
+          data: {
+            sectionId,
+            html,
+            variant: this.currentVariant,
+          },
+        });
       });
-    });
-}
-
+  }
 
   toggleAddButton(disable = true, text, modifyClass = true) {
     const productForm = document.getElementById(`product-form-${this.dataset.section}`);
