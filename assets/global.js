@@ -1125,8 +1125,8 @@ class VariantSelects extends HTMLElement {
         const html = new DOMParser().parseFromString(responseText, 'text/html');
 
           //Source 
-          const sourceCoupon = document.querySelector('.coupon');
-          const destinationCoupon = html.querySelector('.coupon');
+          const sourceCoupon = document.querySelector('.coupon .right');
+          const destinationCoupon = html.querySelector('.coupon .right');
 
           if(sourceCoupon && destinationCoupon){
             sourceCoupon.innerHTML = destinationCoupon.innerHTML;
